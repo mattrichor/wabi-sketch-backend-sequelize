@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   Sketch.init(
     {
       date: DataTypes.STRING,
-      sketchData: DataTypes.STRING,
+      sketchData: DataTypes.JSON,
       userId: {
         type: DataTypes.INTEGER,
         onDelete: 'CASCADE',

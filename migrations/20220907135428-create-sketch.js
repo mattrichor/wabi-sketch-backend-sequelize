@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       sketchData: {
-        type: Sequelize.STRING
+        type: Sequelize.JSON
       },
       userId: {
         type: Sequelize.INTEGER
