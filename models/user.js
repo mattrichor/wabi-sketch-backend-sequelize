@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.hasMany(models.Sketch, {
-        as: 'user',
         foreignKey: 'userId'
       })
       User.belongsToMany(models.User, {
@@ -23,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       username: DataTypes.STRING,
       email: DataTypes.STRING,
-      password: DataTypes.STRING
+      passwordDigest: DataTypes.STRING
     },
     {
       sequelize,

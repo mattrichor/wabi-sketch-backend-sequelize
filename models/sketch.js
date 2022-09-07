@@ -21,8 +21,22 @@ module.exports = (sequelize, DataTypes) => {
     {
       date: DataTypes.STRING,
       sketchData: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
-      promptId: DataTypes.INTEGER
+      userId: {
+        type: DataTypes.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      promptId: {
+        type: DataTypes.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'prompts',
+          key: 'id'
+        }
+      }
     },
     {
       sequelize,
