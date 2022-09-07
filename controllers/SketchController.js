@@ -4,7 +4,7 @@ const GetSketches = async (req, res) => {
   try {
     const sketches = await Sketch.findAll({
       where: {
-        userId: req.params.User_id
+        userId: req.params.user_id
       }
     })
     res.send(sketches)
@@ -15,7 +15,13 @@ const GetSketches = async (req, res) => {
 
 const UploadSketch = async (req, res) => {
   try {
-    const newSketch = await Sketch.create({ ...req.body })
+    const { sketchData, thumbnail } = req.body
+    const userId = req.params.user_id
+    const newSketch = await Sketch.create({
+      sketchData,
+      thumbnail,
+      userId
+    })
     res.send(newSketch)
   } catch (error) {
     throw error

@@ -11,6 +11,9 @@ module.exports = {
       date: {
         type: Sequelize.STRING
       },
+      thumbnail: {
+        type: Sequelize.JSON
+      },
       sketchData: {
         type: Sequelize.JSON
       },
