@@ -38,25 +38,32 @@ const SendFriendRequest = async (req, res) => {
   }
 }
 
-const ViewFriedRequests = async (req, res) => {
+const ViewFriendRequests = async (req, res) => {
   try {
     let userFriends = await FriendList.findAll({
       where: {
         userId: req.params.user_id
       }
     })
+    // gets the ids of people the user has sent a friend request to (including actual friends)
+    // 2, 3, 4, 5 -> friend requests sent to FRIENDTEST, Benji, Oliver, FRIENDTWO
     let friendArray = []
     userFriends.map((user) => {
-      friendArray.push(user.id)
+      friendArray.push(user.friendId)
+      console.log('friend array')
+      console.log(friendArray)
     })
     let userRequests = await FriendList.findAll({
       where: {
         friendId: req.params.user_id
       }
     })
+    //gets the ids of people who have sent a friend request to the User
     let requestArray = []
     userRequests.map((user) => {
       requestArray.push(user.userId)
+      console.log('user request array')
+      console.log(requestArray)
     })
     let friendRequests = await FriendList.findAll({
       where: {
@@ -67,7 +74,7 @@ const ViewFriedRequests = async (req, res) => {
             }
           },
           {
-            id: {
+            userId: {
               [Op.notIn]: friendArray
             }
           },
@@ -77,8 +84,47 @@ const ViewFriedRequests = async (req, res) => {
         ]
       }
     })
-    console.log(friendRequests)
-    res.send(friendRequests)
+    let array = []
+    friendRequests.map((friend) => {
+      array.push(friend.userId)
+      console.log('friend request array')
+      console.log(array)
+    })
+
+    let potentialFriends = await User.findAll({
+      where: {
+        id: {
+          [Op.in]: array
+        }
+      }
+    })
+    let friendsTable = await FriendList.findAll({
+      where: {
+        [Op.and]: [
+          {
+            friendId: {
+              [Op.in]: requestArray
+            }
+          },
+          {
+            userId: req.params.user_id
+          }
+        ]
+      }
+    })
+    let friendTableArray = []
+    friendsTable.map((friend) => {
+      friendTableArray.push(friend.friendId)
+      console.log(friendTableArray)
+    })
+    let friends = await User.findAll({
+      where: {
+        id: {
+          [Op.in]: friendTableArray
+        }
+      }
+    })
+    res.send({ requests: potentialFriends, friends: friends })
   } catch (error) {
     throw error
   }
@@ -87,5 +133,5 @@ const ViewFriedRequests = async (req, res) => {
 module.exports = {
   SendFriendRequest,
   GetAllPotentialFriends,
-  ViewFriedRequests
+  ViewFriendRequests
 }

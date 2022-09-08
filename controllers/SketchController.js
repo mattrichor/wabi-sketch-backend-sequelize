@@ -28,7 +28,29 @@ const UploadSketch = async (req, res) => {
   }
 }
 
+const SendSketch = async (req, res) => {
+  try {
+    const { sketchData, thumbnail } = req.body
+    const userId = req.params.friend_id
+    const oldSketchId = req.params.sketch_id
+    const newSketch = await Sketch.create({
+      sketchData,
+      thumbnail,
+      userId
+    })
+    const oldSketch = await Sketch.destroy({
+      where: {
+        id: oldSketchId
+      }
+    })
+    res.send(newSketch)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   GetSketches,
-  UploadSketch
+  UploadSketch,
+  SendSketch
 }
