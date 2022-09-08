@@ -1,8 +1,15 @@
 const { User, FriendList } = require('../models')
+const { Op } = require('sequelize')
 
 const GetAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll()
+    const users = await User.findAll({
+      where: {
+        id: {
+          [Op.ne]: req.params.user_id
+        }
+      }
+    })
     res.send(users)
   } catch (error) {
     throw error
