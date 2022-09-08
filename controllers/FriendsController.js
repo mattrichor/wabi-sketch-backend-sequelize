@@ -3,10 +3,18 @@ const { Op } = require('sequelize')
 
 const GetAllUsers = async (req, res) => {
   try {
+    const friends = await FriendList.findAll({
+      where: { userId: req.params.user_id }
+    })
+    const friendIdArray = [parseInt(req.params.user_id)]
+    friends.map((friend) => {
+      friendIdArray.push(friend.friendId)
+      console.log(friendIdArray)
+    })
     const users = await User.findAll({
       where: {
         id: {
-          [Op.ne]: req.params.user_id
+          [Op.notIn]: friendIdArray
         }
       }
     })
