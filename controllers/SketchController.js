@@ -38,11 +38,14 @@ const SendSketch = async (req, res) => {
       thumbnail,
       userId
     })
-    const oldSketch = await Sketch.destroy({
-      where: {
-        id: oldSketchId
-      }
-    })
+    if (oldSketchId !== 0) {
+      const oldSketch = await Sketch.destroy({
+        where: {
+          id: oldSketchId
+        }
+      })
+      console.log(`sketch removed with id of ${oldSketchId}`)
+    }
     res.send(newSketch)
   } catch (error) {
     throw error
