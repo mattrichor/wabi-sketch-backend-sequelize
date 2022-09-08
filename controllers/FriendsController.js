@@ -1,7 +1,7 @@
 const { User, FriendList } = require('../models')
 const { Op } = require('sequelize')
 
-const GetAllUsers = async (req, res) => {
+const GetAllPotentialFriends = async (req, res) => {
   try {
     const friends = await FriendList.findAll({
       where: { userId: req.params.user_id }
@@ -9,7 +9,6 @@ const GetAllUsers = async (req, res) => {
     const friendIdArray = [parseInt(req.params.user_id)]
     friends.map((friend) => {
       friendIdArray.push(friend.friendId)
-      console.log(friendIdArray)
     })
     const users = await User.findAll({
       where: {
@@ -32,8 +31,54 @@ const SendFriendRequest = async (req, res) => {
       userId: user,
       friendId: friend
     }
-    let newFollow = await FriendList.create(body)
-    res.send(newFollow)
+    let friendRequest = await FriendList.create(body)
+    res.send(friendRequest)
+  } catch (error) {
+    throw error
+  }
+}
+
+const ViewFriedRequests = async (req, res) => {
+  try {
+    let userFriends = await FriendList.findAll({
+      where: {
+        userId: req.params.user_id
+      }
+    })
+    let friendArray = []
+    userFriends.map((user) => {
+      friendArray.push(user.id)
+    })
+    let userRequests = await FriendList.findAll({
+      where: {
+        friendId: req.params.user_id
+      }
+    })
+    let requestArray = []
+    userRequests.map((user) => {
+      requestArray.push(user.userId)
+    })
+    let friendRequests = await FriendList.findAll({
+      where: {
+        [Op.and]: [
+          {
+            userId: {
+              [Op.in]: requestArray
+            }
+          },
+          {
+            id: {
+              [Op.notIn]: friendArray
+            }
+          },
+          {
+            friendId: req.params.user_id
+          }
+        ]
+      }
+    })
+    console.log(friendRequests)
+    res.send(friendRequests)
   } catch (error) {
     throw error
   }
@@ -41,5 +86,6 @@ const SendFriendRequest = async (req, res) => {
 
 module.exports = {
   SendFriendRequest,
-  GetAllUsers
+  GetAllPotentialFriends,
+  ViewFriedRequests
 }
