@@ -3,6 +3,7 @@ const cors = require('cors')
 const logger = require('morgan')
 const AuthRouter = require('./routes/AuthRouter')
 const SketchRouter = require('./routes/SketchRouter')
+const FriendRouter = require('./routes/FriendRouter')
 
 const app = express()
 
@@ -14,5 +15,6 @@ app.use(express.json({ limit: '200MB' }))
 
 app.use('/auth', AuthRouter)
 app.use('/sketches', SketchRouter)
+app.use('/friends', FriendRouter)
 
 app.listen(PORT, () => console.log(`Server Running On Port: ${PORT}`))
