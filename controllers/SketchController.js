@@ -33,20 +33,34 @@ const SendSketch = async (req, res) => {
     const { sketchData, thumbnail } = req.body
     const userId = req.params.friend_id
     const oldSketchId = req.params.sketch_id
-    const newSketch = await Sketch.create({
-      sketchData,
-      thumbnail,
-      userId
-    })
-    if (oldSketchId !== 0) {
-      const oldSketch = await Sketch.destroy({
-        where: {
-          id: oldSketchId
+    if (oldSketchId) {
+      const newSketch = await Sketch.update(
+        {
+          sketchData,
+          thumbnail,
+          userId
+        },
+        {
+          where: {
+            id: req.params.sketch_id
+          },
+          returning: true
         }
-      })
-      console.log(`sketch removed with id of ${oldSketchId}`)
+      )
+      res.send(newSketch)
+    } else {
+      const newSketch = await Sketch.create({ sketchData, thumbnail, userId })
+      res.send(newSketch)
     }
-    res.send(newSketch)
+
+    // if (oldSketchId !== 0) {
+    //   const oldSketch = await Sketch.destroy({
+    //     where: {
+    //       id: oldSketchId
+    //     }
+    //   })
+    //   console.log(`sketch removed with id of ${oldSketchId}`)
+    // }
   } catch (error) {
     throw error
   }
