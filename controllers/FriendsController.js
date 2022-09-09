@@ -45,8 +45,6 @@ const ViewFriendRequests = async (req, res) => {
         userId: req.params.user_id
       }
     })
-    // gets the ids of people the user has sent a friend request to (including actual friends)
-    // 2, 3, 4, 5 -> friend requests sent to FRIENDTEST, Benji, Oliver, FRIENDTWO
     let friendArray = []
     userFriends.map((user) => {
       friendArray.push(user.friendId)
@@ -58,7 +56,6 @@ const ViewFriendRequests = async (req, res) => {
         friendId: req.params.user_id
       }
     })
-    //gets the ids of people who have sent a friend request to the User
     let requestArray = []
     userRequests.map((user) => {
       requestArray.push(user.userId)
