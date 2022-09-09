@@ -28,7 +28,7 @@ getIO().on('connection', (socket) => {
   console.log(`User ${socket.id} connected!`)
 
   socket.on('send_message', (data) => {
-    console.log(data)
+    socket.broadcast.emit('receive_message', data)
     // console.log(`${userId} sent you a message!`)
   })
 })
