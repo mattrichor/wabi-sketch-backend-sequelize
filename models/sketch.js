@@ -19,8 +19,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Sketch.init(
     {
-      date: DataTypes.STRING,
-      thumbnail: DataTypes.JSON,
       sketchData: DataTypes.JSON,
       userId: {
         type: DataTypes.INTEGER,

@@ -8,12 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      date: {
-        type: Sequelize.STRING
-      },
-      thumbnail: {
-        type: Sequelize.JSON
-      },
       sketchData: {
         type: Sequelize.JSON
       },

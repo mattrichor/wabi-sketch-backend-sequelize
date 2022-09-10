@@ -15,11 +15,10 @@ const GetSketches = async (req, res) => {
 
 const UploadSketch = async (req, res) => {
   try {
-    const { sketchData, thumbnail } = req.body
+    const { sketchData } = req.body
     const userId = req.params.user_id
     const newSketch = await Sketch.create({
       sketchData,
-      thumbnail,
       userId
     })
     res.send(newSketch)
@@ -30,12 +29,11 @@ const UploadSketch = async (req, res) => {
 
 const SaveSketch = async (req, res) => {
   try {
-    const { sketchData, thumbnail } = req.body
+    const { sketchData } = req.body
     const userId = req.params.user_id
     const newSketch = await Sketch.update(
       {
         sketchData: sketchData,
-        thumbnail: thumbnail,
         userId: userId
       },
       {
@@ -52,13 +50,12 @@ const SaveSketch = async (req, res) => {
 
 const SendSketch = async (req, res) => {
   try {
-    const { sketchData, thumbnail } = req.body
+    const { sketchData } = req.body
     const userId = req.params.friend_id
     const oldSketchId = req.params.sketch_id
     const newSketch = await Sketch.update(
       {
         sketchData: sketchData,
-        thumbnail: thumbnail,
         userId: userId
       },
       {
