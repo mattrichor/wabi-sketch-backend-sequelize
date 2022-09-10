@@ -28,7 +28,8 @@ getIO().on('connection', (socket) => {
   console.log(`User ${socket.id} connected!`)
 
   socket.on('send_message', (data) => {
-    socket.broadcast.emit('receive_notification', data)
+    console.log(data)
+    socket.to(data.sketchRecip).emit('receive_notification', data)
     // console.log(`${userId} sent you a message!`)
   })
   socket.on('create_room', (userId) => {
