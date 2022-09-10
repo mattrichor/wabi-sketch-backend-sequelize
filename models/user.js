@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Sketch, {
         foreignKey: 'userId'
       })
+      User.hasMany(models.Notification, {
+        foreignKey: 'userId'
+      })
       User.belongsToMany(models.User, {
         as: 'user',
         through: models.FriendList,

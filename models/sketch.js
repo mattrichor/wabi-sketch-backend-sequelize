@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       Sketch.belongsTo(models.Prompt, {
         foreignKey: 'promptId'
       })
+      Sketch.hasOne(models.Notification, {
+        foreignKey: 'sketchId'
+      })
       // define association here
     }
   }
