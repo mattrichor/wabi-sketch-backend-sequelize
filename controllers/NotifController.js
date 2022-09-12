@@ -16,6 +16,7 @@ const GetUserNotifications = async (req, res) => {
 
 const CreateNotification = async (req, res) => {
   try {
+    console.log(req)
     const { senderName } = req.body
     const userId = req.params.user_id
     const sketchId = req.params.sketch_id
@@ -30,7 +31,19 @@ const CreateNotification = async (req, res) => {
   }
 }
 
+const DestroyNotification = async (req, res) => {
+  try {
+    const notif = await Notification.destroy({
+      where: {
+        id: req.params.notif_id
+      }
+    })
+  } catch (error) {
+    throw error
+  }
+}
 module.exports = {
   GetUserNotifications,
-  CreateNotification
+  CreateNotification,
+  DestroyNotification
 }

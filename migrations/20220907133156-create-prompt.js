@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       colors: {
-        type: Sequelize.STRING
+        type: Sequelize.JSON
       },
       createdAt: {
         allowNull: false,

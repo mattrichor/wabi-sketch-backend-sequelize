@@ -13,13 +13,27 @@ const GetSketches = async (req, res) => {
   }
 }
 
+const GetSketchById = async (req, res) => {
+  try {
+    const sketches = await Sketch.findOne({
+      where: {
+        id: req.params.sketch_id
+      }
+    })
+    res.send(sketches)
+  } catch (error) {
+    throw error
+  }
+}
+
 const UploadSketch = async (req, res) => {
   try {
-    const { sketchData } = req.body
+    const { sketchData, promptId } = req.body
     const userId = req.params.user_id
     const newSketch = await Sketch.create({
-      sketchData,
-      userId
+      sketchData: sketchData,
+      userId: userId,
+      promptId: promptId
     })
     res.send(newSketch)
   } catch (error) {
@@ -29,12 +43,13 @@ const UploadSketch = async (req, res) => {
 
 const SaveSketch = async (req, res) => {
   try {
-    const { sketchData } = req.body
+    const { sketchData, promptId } = req.body
     const userId = req.params.user_id
     const newSketch = await Sketch.update(
       {
         sketchData: sketchData,
-        userId: userId
+        userId: userId,
+        promptId: promptId
       },
       {
         where: {
@@ -74,5 +89,6 @@ module.exports = {
   GetSketches,
   UploadSketch,
   SendSketch,
-  SaveSketch
+  SaveSketch,
+  GetSketchById
 }

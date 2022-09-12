@@ -5,6 +5,8 @@ const AuthRouter = require('./routes/AuthRouter')
 const SketchRouter = require('./routes/SketchRouter')
 const FriendRouter = require('./routes/FriendRouter')
 const NotifRouter = require('./routes/NotifRouter')
+const PromptRouter = require('./routes/PromptRouter')
+
 const { init, getIO } = require('./utils/socket')
 
 const app = express()
@@ -23,6 +25,7 @@ app.use('/auth', AuthRouter)
 app.use('/sketches', SketchRouter)
 app.use('/friends', FriendRouter)
 app.use('/notifs', NotifRouter)
+app.use('/prompts', PromptRouter)
 
 // socket stuff
 
