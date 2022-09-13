@@ -32,14 +32,21 @@ app.use('/prompts', PromptRouter)
 getIO().on('connection', (socket) => {
   console.log(`User ${socket.id} connected!`)
 
-  socket.on('send_message', (data) => {
+  socket.on('send_sketch', (data) => {
     console.log(data)
     socket.to(data.sketchRecip).emit('receive_notification', data)
-    // console.log(`${userId} sent you a message!`)
+  })
+  socket.on('send_chat', (data) => {
+    console.log(data)
+    socket.broadcast.emit('receive_chat', data)
   })
   socket.on('create_room', (userId) => {
     socket.join(userId)
     console.log(`user joined room with id of ${userId}`)
+  })
+  socket.on('create_prompt_room', (promptId, userId) => {
+    socket.join(promptId)
+    console.log(`user ${userId} joined room ${promptId}`)
   })
 })
 
