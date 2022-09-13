@@ -1,5 +1,10 @@
 const express = require('express')
 const cors = require('cors')
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+  optionSuccessStatus: 200
+}
 const logger = require('morgan')
 const AuthRouter = require('./routes/AuthRouter')
 const SketchRouter = require('./routes/SketchRouter')
@@ -16,7 +21,7 @@ const server = http.createServer(app)
 const PORT = process.env.PORT || 3001
 
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(logger('dev'))
 app.use(express.json({ limit: '200MB' }))
 init(server)
@@ -51,3 +56,25 @@ getIO().on('connection', (socket) => {
 })
 
 server.listen(PORT, () => console.log(`Server Running On Port: ${PORT}`))
+
+// require('dotenv').config()
+// module.exports = {
+//   development: {
+//     database: 'wabi_sketch_dev',
+//     dialect: 'postgres'
+//   },
+//   test: {
+//     database: 'wabi_sketch_test',
+//     dialect: 'postgres'
+//   },
+//   production: {
+//     use_env_variable: 'DATABASE_URL',
+//     dialect: 'postgres',
+//     dialectOptions: {
+//       ssl: {
+//         rejectUnauthorized: false,
+//         require: true
+//       }
+//     }
+//   }
+// }
